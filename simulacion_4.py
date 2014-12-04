@@ -55,7 +55,7 @@ print 'tiempo promedio en bodega: ', sum(t_bodega1)/simulaciones #promedio tiemp
 #para la segunda etapa
 
 na_llegadaF = []     # Variable aleatoria para las fallas
-tf_llegada = []		# tiempo entre fallas.
+tf = []		# tiempo entre fallas.
 na_reparacion = []
 t_reparacion = []
 entrada_mach2 = []
@@ -68,7 +68,7 @@ for i in range(simulaciones):
 
 for i in range(simulaciones):
 	t = 8+2*(-3+6 * na_llegadaF[i]) 
-	tf_llegada.append(t)
+	tf.append(t)
 
 #REPARACION
 for i in range(simulaciones):
@@ -81,17 +81,24 @@ for i in range(simulaciones):
 
 entrada_mach2.append(salida_mach1[0])
 
-salida_mach2.append(salida_mach1[0]+0.04)
+salida_mach2.append(salida_mach1[0]+0.0357)
 
 #maquina en caso de que no halla falla, por lo tanto tampoco reparacion
-
+j = 0
 for i in range(1,simulaciones,1):
-	if salida_mach1[i] > salida_mach2[i-1]:
-		entrada_mach2.append(salida_mach1[i])
-		salida_mach2.append(salida_mach1[i]+0.0357)
-	else:
+	if tf[j] < sum(salida_mach2):
+			if salida_mach1[i] > salida_mach2[i-1]:
+				entrada_mach2.append(salida_mach1[i])
+				salida_mach2.append(salida_mach1[i]+0.0357)
+			else:
+				entrada_mach2.append(salida_mach2[i-1])
+				salida_mach2.append(salida_mach2[i-1]+0.0357)
+	else:	
 		entrada_mach2.append(salida_mach2[i-1])
-		salida_mach2.append(salida_mach2[i-1]+0.0357)
+		salida_mach2.append(t_reparacion[j])
+		j = j + 1
 
-print 'Tiempo trabajo mach 1: '
-print 'Tiempo trabajo mach 2: '
+
+
+print 'Tiempo trabajo total mach 1: ', simulaciones*0.04
+print 'Tiempo trabajo total y tiempo ocioso mach 2: ', sum(t_reparacion)
