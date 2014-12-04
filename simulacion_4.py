@@ -101,4 +101,5 @@ for i in range(1,simulaciones,1):
 
 
 print 'Tiempo trabajo total mach 1: ', simulaciones*0.04
-print 'Tiempo trabajo total y tiempo ocioso mach 2: ', sum(t_reparacion)
+print 'Tiempo trabajo total mach 2: ', simulaciones*0.0357
+print 'Tiempo en reparacion mach 2: ', sum(t_reparacion)
